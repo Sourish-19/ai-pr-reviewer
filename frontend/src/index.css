@@ -16,10 +16,10 @@
   }
 
   .liquid-glass {
-    background: rgba(255, 255, 255, 0.01);
+    background: rgba(255, 255, 255, 0.08); /* Increased from 0.01 to make it less see-through */
     background-blend-mode: luminosity;
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(24px); /* Increased from 4px for thick frosted glass effect */
+    -webkit-backdrop-filter: blur(24px);
     border: none;
     box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
     position: relative;
