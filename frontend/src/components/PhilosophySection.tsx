@@ -25,6 +25,7 @@ export default function PhilosophySection() {
             className="rounded-3xl overflow-hidden aspect-[4/3]"
           >
             <video
+              ref={(v) => { if(v) { v.defaultMuted = true; v.muted = true; v.playsInline = true; } }}
               className="w-full h-full object-cover"
               src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260307_083826_e938b29f-a43a-41ec-a153-3d4730578ab8.mp4"
               muted

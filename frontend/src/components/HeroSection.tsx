@@ -41,6 +41,11 @@ export default function HeroSection() {
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
+    
+    // Fix for in-app browsers and iOS Safari autoplay blocking
+    video.defaultMuted = true;
+    video.muted = true;
+    video.playsInline = true;
 
     const animateOpacity = (start: number, end: number, duration: number, callback?: () => void) => {
       if (fadeAnimationRef.current) cancelAnimationFrame(fadeAnimationRef.current);
@@ -63,23 +68,28 @@ export default function HeroSection() {
       fadeAnimationRef.current = requestAnimationFrame(step);
     };
 
+    let hasFadedIn = false;
     const handleCanPlay = () => {
-      video.play().catch(console.error);
+      video.play().catch(() => {}); // catch autoplay blocks silently
+      if (hasFadedIn) return; // Prevent blinking from multiple canplay events
+      hasFadedIn = true;
       animateOpacity(0, 1, 500);
     };
 
     const handleTimeUpdate = () => {
-      if (video.duration - video.currentTime <= 0.55 && video.style.opacity === '1') {
+      // Safely check duration
+      if (video.duration > 0 && video.duration - video.currentTime <= 0.55 && video.style.opacity === '1') {
         animateOpacity(1, 0, 500);
       }
     };
 
     const handleEnded = () => {
       video.style.opacity = '0';
+      hasFadedIn = false; // allow fade in again
       setTimeout(() => {
         video.currentTime = 0;
-        video.play().catch(console.error);
-        animateOpacity(0, 1, 500);
+        video.play().catch(() => {});
+        handleCanPlay();
       }, 100);
     };
 

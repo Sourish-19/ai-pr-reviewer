@@ -16,6 +16,7 @@ export default function FeaturedVideoSection() {
           className="rounded-3xl overflow-hidden relative min-h-[400px] md:min-h-0 md:aspect-video flex flex-col justify-end"
         >
             <video
+              ref={(v) => { if(v) { v.defaultMuted = true; v.muted = true; v.playsInline = true; } }}
               className="absolute inset-0 w-full h-full object-cover"
               src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260402_054547_9875cfc5-155a-4229-8ec8-b7ba7125cbf8.mp4"
               muted
