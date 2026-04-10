@@ -191,15 +191,15 @@ export default function HeroSection() {
 
         {results && (
           <div className="w-full max-w-5xl text-left grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 relative z-20 overflow-y-auto">
-            <div className="liquid-glass rounded-2xl p-6 bg-black/40 backdrop-blur-md border border-white/10 shadow-2xl">
+            <div className="liquid-glass rounded-2xl p-6 shadow-2xl">
               <h3 className="text-white text-3xl mb-4 border-b border-white/10 pb-3 tracking-wide" style={{ fontFamily: "'Instrument Serif', serif" }}><em className="italic">Code Quality</em></h3>
               <div className="text-sm opacity-90 leading-relaxed overflow-y-auto max-h-64 my-custom-markdown" dangerouslySetInnerHTML={{ __html: marked(results['Code Quality'] || '') }}></div>
             </div>
-            <div className="liquid-glass rounded-2xl p-6 bg-black/40 backdrop-blur-md border border-white/10 shadow-2xl">
+            <div className="liquid-glass rounded-2xl p-6 shadow-2xl">
               <h3 className="text-white text-3xl mb-4 border-b border-white/10 pb-3 tracking-wide" style={{ fontFamily: "'Instrument Serif', serif" }}><em className="italic">Security Risk</em></h3>
               <div className="text-sm opacity-90 leading-relaxed overflow-y-auto max-h-64 my-custom-markdown" dangerouslySetInnerHTML={{ __html: marked(results['Security'] || '') }}></div>
             </div>
-            <div className="liquid-glass rounded-2xl p-6 bg-black/40 backdrop-blur-md border border-white/10 shadow-2xl">
+            <div className="liquid-glass rounded-2xl p-6 shadow-2xl">
               <h3 className="text-white text-3xl mb-4 border-b border-white/10 pb-3 tracking-wide" style={{ fontFamily: "'Instrument Serif', serif" }}><em className="italic">Codebase Integration</em></h3>
               <div className="text-sm opacity-90 leading-relaxed overflow-y-auto max-h-64 my-custom-markdown" dangerouslySetInnerHTML={{ __html: marked(results['Codebase Integration'] || '') }}></div>
             </div>
