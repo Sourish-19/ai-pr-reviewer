@@ -28,6 +28,8 @@ class AIEngine:
         """
         Constructs the prompt and sends the diff to Gemini for review.
         """
+        import time
+        
         system_instruction = (
             "You are an expert Principal Software Engineer acting as a rigorous PR reviewer. "
             "You are reviewing the provided git diff. "
@@ -41,16 +43,29 @@ class AIEngine:
 
         prompt = f"Please review the following Pull Request diff:\n\n```diff\n{diff_text}\n```"
 
-        response = self.client.models.generate_content(
-            model=self.model_name,
-            contents=prompt,
-            config=genai.types.GenerateContentConfig(
-                system_instruction=system_instruction,
-                temperature=0.4,
-            ),
-        )
-        
-        if not response.text:
-            raise Exception("AI model returned an empty empty response.")
-            
-        return response.text
+        max_retries = 3
+        for attempt in range(max_retries):
+            try:
+                response = self.client.models.generate_content(
+                    model=self.model_name,
+                    contents=prompt,
+                    config=genai.types.GenerateContentConfig(
+                        system_instruction=system_instruction,
+                        temperature=0.4,
+                    ),
+                )
+                
+                if not response.text:
+                    raise Exception("AI model returned an empty response.")
+                    
+                return response.text
+                
+            except Exception as e:
+                error_msg = str(e)
+                if any(code in error_msg for code in ["503", "429", "UNAVAILABLE", "Too Many Requests"]):
+                    if attempt < max_retries - 1:
+                        sleep_time = 2 ** attempt
+                        print(f"API busy or rate limited. Retrying in {sleep_time} seconds (Attempt {attempt + 1}/{max_retries})...")
+                        time.sleep(sleep_time)
+                        continue
+                raise
